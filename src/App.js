@@ -7,12 +7,15 @@ function App() {
 
   const handleForm=(event)=>{
     event.preventDefault();
-    setTeam([...team, newMember])
+    if(newMember.name !="" && newMember.email != "" && newMember.role != ""){
+      setTeam([...team, newMember])
     setNewMember({
       name: "",
       email: "",
       role: ""
     });
+    }
+    
   }
 
   const [team, setTeam] = useState([
@@ -40,6 +43,12 @@ function App() {
     role: ""
   });
 
+  const [memberToEdit, setMemberToEdit] = useState({
+    name: "",
+    email: "",
+    role: ""
+  });
+
   const handleChange = (event)=>{
     setNewMember({...newMember, [event.target.name]:event.target.value})
   }
@@ -54,6 +63,7 @@ function App() {
             <h2>{member.name}</h2>
             <p>{member.email}</p>
             <p>{member.role}</p>
+            <button>EDIT</button>
           </div>
         );
       })}
