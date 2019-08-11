@@ -2,41 +2,45 @@ import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Form from "./Form";
+import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 function App() {
   const handleForm = event => {
     event.preventDefault();
 
-    if(edit===false){
-    if (newMember.name != "" && newMember.email != "" && newMember.role != "") {
-      setTeam([...team, newMember]);
-      setNewMember({
-        name: "",
-        email: "",
-        role: ""
-      });
+    if (edit === false) {
+      if (
+        newMember.name != "" &&
+        newMember.email != "" &&
+        newMember.role != ""
+      ) {
+        setTeam([...team, newMember]);
+        setNewMember({
+          name: "",
+          email: "",
+          role: ""
+        });
+      }
+    } else {
+      if (
+        memberToEdit.name != "" &&
+        memberToEdit.email != "" &&
+        memberToEdit.role != ""
+      ) {
+        // setTeam([...team, memberToEdit]);
+        let newTeam = [...team];
+        // newTeam.pop(editIndex);
+        newTeam.splice(editIndex, 1, memberToEdit);
+        setTeam(newTeam);
+
+        setNewMember({
+          name: "",
+          email: "",
+          role: ""
+        });
+        setEdit(false);
+      }
     }
-  } else{
-    if (memberToEdit.name != "" && memberToEdit.email != "" && memberToEdit.role != "") {
-
-
-      // setTeam([...team, memberToEdit]);
-      let newTeam = [...team];
-      // newTeam.pop(editIndex);
-      newTeam.splice(editIndex, 1, memberToEdit);
-      setTeam(newTeam);
-
-      setNewMember({
-        name: "",
-        email: "",
-        role: ""
-      });
-      setEdit(false);
-    }
-  }
-
-
-
   };
 
   const [team, setTeam] = useState([
@@ -72,19 +76,28 @@ function App() {
   const [editIndex, setEditIndex] = useState("");
 
   const handleChange = event => {
-    if(edit===false){
+
+    if(event.target.name === "name" && (/^[a-zA-Z ]+$/.test(event.target.value))===false) {
+      
+return;
+      // return
+
+    }
+    if (edit === false) {
       setNewMember({ ...newMember, [event.target.name]: event.target.value });
     } else {
-      setMemberToEdit({ ...memberToEdit, [event.target.name]: event.target.value });
+      setMemberToEdit({
+        ...memberToEdit,
+        [event.target.name]: event.target.value
+      });
     }
-    
   };
 
-  const editMember = (member, index) =>{
-    setMemberToEdit({...member});
+  const editMember = (member, index) => {
+    setMemberToEdit({ ...member });
     setEdit(true);
     setEditIndex(index);
-  }
+  };
 
   return (
     <div className="App">
@@ -95,7 +108,13 @@ function App() {
             <h2>{member.name}</h2>
             <p>{member.email}</p>
             <p>{member.role}</p>
-            <button onClick={()=>{editMember(member, index)}}>EDIT</button>
+            <button
+              onClick={() => {
+                editMember(member, index);
+              }}
+            >
+              EDIT
+            </button>
           </div>
         );
       })}
