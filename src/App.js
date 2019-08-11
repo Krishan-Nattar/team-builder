@@ -6,6 +6,8 @@ import Form from "./Form";
 function App() {
   const handleForm = event => {
     event.preventDefault();
+
+    if(edit===false){
     if (newMember.name != "" && newMember.email != "" && newMember.role != "") {
       setTeam([...team, newMember]);
       setNewMember({
@@ -14,6 +16,27 @@ function App() {
         role: ""
       });
     }
+  } else{
+    if (memberToEdit.name != "" && memberToEdit.email != "" && memberToEdit.role != "") {
+
+
+      // setTeam([...team, memberToEdit]);
+      let newTeam = [...team];
+      // newTeam.pop(editIndex);
+      newTeam.splice(editIndex, 1, memberToEdit);
+      setTeam(newTeam);
+
+      setNewMember({
+        name: "",
+        email: "",
+        role: ""
+      });
+      setEdit(false);
+    }
+  }
+
+
+
   };
 
   const [team, setTeam] = useState([
@@ -45,9 +68,23 @@ function App() {
     role: ""
   });
 
+  const [edit, setEdit] = useState(false);
+  const [editIndex, setEditIndex] = useState("");
+
   const handleChange = event => {
-    setNewMember({ ...newMember, [event.target.name]: event.target.value });
+    if(edit===false){
+      setNewMember({ ...newMember, [event.target.name]: event.target.value });
+    } else {
+      setMemberToEdit({ ...memberToEdit, [event.target.name]: event.target.value });
+    }
+    
   };
+
+  const editMember = (member, index) =>{
+    setMemberToEdit({...member});
+    setEdit(true);
+    setEditIndex(index);
+  }
 
   return (
     <div className="App">
@@ -58,7 +95,7 @@ function App() {
             <h2>{member.name}</h2>
             <p>{member.email}</p>
             <p>{member.role}</p>
-            <button>EDIT</button>
+            <button onClick={()=>{editMember(member, index)}}>EDIT</button>
           </div>
         );
       })}
@@ -66,6 +103,8 @@ function App() {
         handleForm={handleForm}
         handleChange={handleChange}
         member={newMember}
+        edit={edit}
+        memberToEdit={memberToEdit}
       />
     </div>
   );

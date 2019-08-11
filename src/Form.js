@@ -3,22 +3,31 @@ import React, {useState} from 'react';
 
 
 const Form = (props) => {
+
+    const setValue = thisName =>{
+        if(props.edit===false){
+            return props.member[thisName]
+        } else{
+            return props.memberToEdit[thisName];
+        }
+    }
+
     return ( 
 
     <form onSubmit={(event)=>props.handleForm(event)}>
         <label>
             Name:
-            <input value={props.member.name} onChange={event=>props.handleChange(event)} type="text"name="name"/>
+            <input value={setValue("name")} onChange={event=>props.handleChange(event)} type="text"name="name"/>
         </label>
         <br />
         <label>
             Email:
-            <input value={props.member.email} onChange={event=>props.handleChange(event)} type="email"name="email"/>
+            <input value={setValue("email")} onChange={event=>props.handleChange(event)} type="email"name="email"/>
         </label>
         <br />
         <label>
             Role:
-            <input value={props.member.role} onChange={event=>props.handleChange(event)} type="text" name="role"/>
+            <input value={setValue("role")} onChange={event=>props.handleChange(event)} type="text" name="role"/>
         </label>
         <br />
         <button>Submit!</button>
