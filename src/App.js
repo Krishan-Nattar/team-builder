@@ -76,12 +76,13 @@ function App() {
   const [editIndex, setEditIndex] = useState("");
 
   const handleChange = event => {
-
-    if(event.target.name === "name" && (/^[a-zA-Z ]+$/.test(event.target.value))===false) {
-      
-return;
+    if (
+      event.target.name === "name" &&
+      /^[a-zA-Z ]+$/.test(event.target.value) === false &&
+      event.target.value != ""
+    ) {
+      return;
       // return
-
     }
     if (edit === false) {
       setNewMember({ ...newMember, [event.target.name]: event.target.value });
