@@ -1,26 +1,22 @@
-import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Form from './Form';
+import React, { useState, useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Form from "./Form";
 
 function App() {
-
-  const handleForm=(event)=>{
+  const handleForm = event => {
     event.preventDefault();
-    if(newMember.name !="" && newMember.email != "" && newMember.role != ""){
-      setTeam([...team, newMember])
-    setNewMember({
-      name: "",
-      email: "",
-      role: ""
-    });
+    if (newMember.name != "" && newMember.email != "" && newMember.role != "") {
+      setTeam([...team, newMember]);
+      setNewMember({
+        name: "",
+        email: "",
+        role: ""
+      });
     }
-    
-  }
+  };
 
   const [team, setTeam] = useState([
-    
-
     {
       name: "Krishan",
       email: "krishansemail@email.com",
@@ -35,7 +31,7 @@ function App() {
       name: "Jane",
       email: "Jane@email.com",
       role: "CEO"
-    },
+    }
   ]);
   const [newMember, setNewMember] = useState({
     name: "",
@@ -49,15 +45,14 @@ function App() {
     role: ""
   });
 
-  const handleChange = (event)=>{
-    setNewMember({...newMember, [event.target.name]:event.target.value})
-  }
+  const handleChange = event => {
+    setNewMember({ ...newMember, [event.target.name]: event.target.value });
+  };
 
-  
   return (
     <div className="App">
       <h1>Meet The Team</h1>
-      {team.map((member, index)=>{
+      {team.map((member, index) => {
         return (
           <div key={member.email}>
             <h2>{member.name}</h2>
@@ -67,7 +62,11 @@ function App() {
           </div>
         );
       })}
-      <Form handleForm={handleForm} handleChange={handleChange} member={newMember} />
+      <Form
+        handleForm={handleForm}
+        handleChange={handleChange}
+        member={newMember}
+      />
     </div>
   );
 }
