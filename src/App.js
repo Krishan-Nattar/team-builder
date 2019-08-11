@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import logo from "./logo.svg";
+import React, { useState } from "react";
 import "./App.css";
 import Form from "./Form";
-import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 function App() {
   const handleForm = event => {
@@ -27,9 +25,7 @@ function App() {
         memberToEdit.email != "" &&
         memberToEdit.role != ""
       ) {
-        // setTeam([...team, memberToEdit]);
         let newTeam = [...team];
-        // newTeam.pop(editIndex);
         newTeam.splice(editIndex, 1, memberToEdit);
         setTeam(newTeam);
 
@@ -81,8 +77,7 @@ function App() {
       /^[a-zA-Z ]+$/.test(event.target.value) === false &&
       event.target.value != ""
     ) {
-      return;
-      // return
+      return; //If name is not a letter or a space, don't change name
     }
     if (edit === false) {
       setNewMember({ ...newMember, [event.target.name]: event.target.value });
