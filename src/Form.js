@@ -8,7 +8,6 @@ const Form = props => {
       return props.memberToEdit[thisName];
     }
   };
-
   return (
     <form onSubmit={event => props.handleForm(event)}>
       <label>
